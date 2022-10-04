@@ -1,0 +1,75 @@
+ss
+** THIS IS A SHORT REPORT CONTAINING DETAILS WITHREGARDS TO FUNCTIONALITY AND PROGRAM FLAWS FOR lasertank.c **
+
+
+- Direction correction has been implemented and works as expected.
+- The program has some expectations from the assessment that has not been met
+  such as that I could not parse the .txt file properly as the function would not work, my initial attempt
+  will be included as the file name "filetest.c"
+  Essentially, the program does not do any File I/O, but can still run like previously doing i.e:
+
+    ./lasertank 25 25 3 4 u 8 9 l
+
+- Linked list has been implemented, and shows the log of the user movement, including at which point
+did they shoot. However as there is no File I/O, it does not output as a file, but just prints into terminal
+
+-Lasers now somewhat work as expected, i.e it looks like its travelling like an actual laser, but the laser
+is still a mid-range weapon, kind of like a shotgun, so the player has to come close to the enemy to actually kill it
+
+-Lose situation has been implemeneted compared to last time, as the enemy tank can now shoot. However, the enemy tank
+oonly shoots when the tank is facing directly at the enemy tank, otherwise the enemy tank will completely ignore it, as the enemy tank
+is honorable and does not shoot from behind.
+
+- Most of the mallocs have been freed, such as the linked list has been freed properly. However, the char malloc array that was also used
+previously still does not free properly and gives me this error:
+
+  this is the error:
+  free(): invalid pointer
+  Aborted (core dumped)
+
+  and the valgrind feed back will also be added below, the free for this has been commented out at the bottom of the end of fieldMap[]
+
+
+*************************THIS vvvvvvv IS STILL A THING ************************
+- PLEASE and I mean PLEASE, theres something going on with the Makefile
+  and I have been trying to find a fix for it for so long, but essentially,
+  the Makefile was initially working, it compiles it and does as it is supposed
+  to, but when ran at a different time this would show up:
+    "make: 'lasertank' is up to date."
+
+  if this is the case when ran by one of the tutors or Dr Liang, please compile it
+  the normal way: gcc -std=c89 -Wall -Werror -pedantic -ansi lasertank.c newSleep.c -o lasertank
+
+==90382== Memcheck, a memory error detector
+==90382== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==90382== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==90382== Command: ./lasertank
+==90382== 
+==90382== Invalid read of size 1
+==90382==    at 0x48A6CBA: ____strtol_l_internal (strtol_l.c:292)
+==90382==    by 0x48A2743: atoi (atoi.c:27)
+==90382==    by 0x10AEF3: main (in /home/jlumagbas/Desktop/LaserTank2/LaserTank/lasertank)
+==90382==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==90382== 
+==90382== 
+==90382== Process terminating with default action of signal 11 (SIGSEGV)
+==90382==  Access not within mapped region at address 0x0
+==90382==    at 0x48A6CBA: ____strtol_l_internal (strtol_l.c:292)
+==90382==    by 0x48A2743: atoi (atoi.c:27)
+==90382==    by 0x10AEF3: main (in /home/jlumagbas/Desktop/LaserTank2/LaserTank/lasertank)
+==90382==  If you believe this happened as a result of a stack
+==90382==  overflow in your program's main thread (unlikely but
+==90382==  possible), you can try to increase the size of the
+==90382==  main thread stack using the --main-stacksize= flag.
+==90382==  The main thread stack size used in this run was 8388608.
+==90382== 
+==90382== HEAP SUMMARY:
+==90382==     in use at exit: 0 bytes in 0 blocks
+==90382==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==90382== 
+==90382== All heap blocks were freed -- no leaks are possible
+==90382== 
+==90382== For lists of detected and suppressed errors, rerun with: -s
+==90382== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+Segmentation fault (core dumped)
+
